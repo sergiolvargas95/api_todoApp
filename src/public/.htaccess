@@ -1,0 +1,12 @@
+RewriteEngine On
+
+# Habilitar reescritura de URLs limpias
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?$1 [QSA,L]
+
+# Bloquear acceso directo a archivos sensibles
+<FilesMatch "\.(env|json|sql|ini|log|sh)">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>

@@ -1,0 +1,19 @@
+{
+    "name": "todo/admin",
+    "description": "Task management application with PHP in the backend and support for real-time events with Node.js.",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Todo\\Admin\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "sergiolvargas95",
+            "email": "sergiolvargas95@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
