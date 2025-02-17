@@ -1,10 +1,8 @@
 <?php
-
 namespace Todo\Admin\services;
 
-use Exception;
-use Todo\Admin\repositories\TodoRepository;
 use Todo\Admin\models\Todo;
+use Todo\Admin\repositories\TodoRepository;
 
 class TodoService {
     private $todoRepository;
@@ -17,24 +15,25 @@ class TodoService {
         return $this->todoRepository->getAll();
     }
 
-    public function getTodoById($id) {
+    public function getTodoById(int $id) {
         return $this->todoRepository->getById($id);
     }
 
-    public function createTodo($title) {
-        if (empty($title)) {
-            throw new Exception("El título no puede estar vacío.");
-        }
-        $todo = new Todo(null, $title, false);
+    public function createTodo(array $data) {
+        $todo = new Todo(
+            null,
+            $data['title'],
+            $data['description'] ?? null,
+            $data['priority'],
+            $data['status'],
+            $data['completed'],
+            date('Y-m-d H:i:s'),
+            date('Y-m-d H:i:s'),
+            $data['completed_at'] ?? null,
+            $data['user_id'],
+            $data['category_id']
+        );
+
         return $this->todoRepository->create($todo);
-    }
-
-    public function updateTodo($id, $title, $completed) {
-        $todo = new Todo($id, $title, $completed);
-        return $this->todoRepository->update($id, $todo);
-    }
-
-    public function deleteTodo($id) {
-        return $this->todoRepository->delete($id);
     }
 }

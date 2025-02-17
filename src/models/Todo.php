@@ -91,11 +91,11 @@ class Todo {
         return $this;
     }
 
-    public function isCompleted(): bool {
+    public function isCompleted(): int {
         return $this->completed;
     }
 
-    public function setCompleted(bool $completed): self {
+    public function setCompleted(int $completed): self {
         $this->completed = $completed;
 
         return $this;
