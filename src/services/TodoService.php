@@ -40,7 +40,7 @@ class TodoService {
     }
 
     public function updateTodo(array $data) {
-        $todo = $this->getTodoById($data['id']);
+        $todo = TodoRepository::fromArray($this->getTodoById($data['id']));
 
         if(!empty($todo)) {
             if(isset($data['title'])) {

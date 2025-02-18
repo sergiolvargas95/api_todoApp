@@ -9,5 +9,4 @@ interface ITodoRepository {
     public function getById(int $id);
     public function create(Todo $todo);
     public function update(Todo $todo);
-    public function delete(int $id);
 }

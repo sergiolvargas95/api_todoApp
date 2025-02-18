@@ -28,9 +28,7 @@ class TodoRepository implements ITodoRepository {
             ":id" => $id
         ]);
 
-        $todo = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        return $this->fromArray($todo);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function create(Todo $todo) {
@@ -77,11 +75,7 @@ class TodoRepository implements ITodoRepository {
         ]);
     }
 
-    public function delete(int $id) {
-
-    }
-
-    public function fromArray($data) {
+    public static function fromArray($data) {
         return new Todo(
             $data['id'],
             $data['title'],
