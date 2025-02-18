@@ -30,4 +30,8 @@ $router->post('/todos', function() use ($controller) {
     echo $controller->create();
 });
 
+$router->put('/todos', function() use ($controller){
+    echo $controller->update();
+});
+
 $router->run();
