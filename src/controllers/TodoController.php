@@ -2,7 +2,7 @@
 
 namespace Todo\Admin\controllers;
 
-use Exception;
+use Todo\Admin\models\Todo;
 use Todo\Admin\services\TodoService;
 
 class TodoController {
@@ -13,29 +13,50 @@ class TodoController {
     }
 
     public function getAll() {
-        echo json_encode($this->todoService->getAllTodos());
+        return json_encode($this->todoService->getAllTodos());
     }
 
-    public function getById($id) {
-        echo json_encode($this->todoService->getTodoById($id));
+    public function getById(int $id) {
+        return json_encode($this->todoService->getTodoById($id));
     }
 
-    public function create($title) {
-        try {
-            $this->todoService->createTodo($title);
-            echo json_encode(["mensaje" => "To-Do creado con éxito"]);
-        } catch (Exception $e) {
-            echo json_encode(["error" => $e->getMessage()]);
+    public function create() {
+        $data = json_decode(file_get_contents("php://input"), true);
+
+        if (!$data || !isset($data['title'], $data['priority'], $data['status'], $data['user_id'], $data['completed'])) {
+            http_response_code(400);
+            echo json_encode(["error" => "Invalid Data"]);
+            return;
+        }
+
+        $success = $this->todoService->createTodo($data);
+
+        if ($success) {
+            http_response_code(201);
+            echo json_encode(["message" => "To-Do created Succesfully"]);
+        } else {
+            http_response_code(500);
+            echo json_encode(["error" => "Error creating To-Do"]);
         }
     }
 
-    public function update($id, $title, $completed) {
-        $this->todoService->updateTodo($id, $title, $completed);
-        echo json_encode(["mensaje" => "To-Do actualizado"]);
-    }
+    public function update() {
+        $data = json_decode(file_get_contents("php://input"), true);
 
-    public function delete($id) {
-        $this->todoService->deleteTodo($id);
-        echo json_encode(["mensaje" => "To-Do eliminado"]);
+        if (!$data || !isset($data['title'], $data['priority'], $data['status'], $data['user_id'], $data['completed'])) {
+            http_response_code(400);
+            echo json_encode(["error" => "Invalid Data"]);
+            return;
+        }
+
+        $success = $this->todoService->updateTodo($data);
+
+        if ($success) {
+            http_response_code(201);
+            echo json_encode(["message" => "To-Do updated Succesfully"]);
+        } else {
+            http_response_code(500);
+            echo json_encode(["error" => "Error updating To-Do"]);
+        }
     }
 }

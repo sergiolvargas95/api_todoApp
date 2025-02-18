@@ -8,6 +8,5 @@ interface ITodoRepository {
     public function getAll();
     public function getById(int $id);
     public function create(Todo $todo);
-    public function update(int $id, Todo $todo);
-    public function delete(int $id);
+    public function update(Todo $todo);
 }

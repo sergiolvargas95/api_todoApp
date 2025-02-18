@@ -17,15 +17,17 @@ class Database {
             ];
 
             $this->connection = new PDO($dsn, $_ENV['DBUSER'], $_ENV['PASSWORD'], $options);
-        } catch(PDOException $e) {
+        } catch (PDOException $e) {
             throw $e;
         }
     }
 
+    //applying singleton
     public static function getInstance() {
         if(!self::$instance) {
             self::$instance = new Database();
         }
+
         return self::$instance;
     }
 
