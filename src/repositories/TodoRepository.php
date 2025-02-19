@@ -20,7 +20,7 @@ class TodoRepository implements ITodoRepository {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getById(int $id): array {
+    public function getById(int $id): bool|array {
         $stmt = $this->db->prepare("SELECT id, title, description, priority, status, completed, created_at, updated_at, completed_at, user_id, category_id
                                     FROM todos WHERE id = :id");
 
@@ -73,21 +73,5 @@ class TodoRepository implements ITodoRepository {
             ":category_id" => $todo->getCategoryId(),
             ":user_id" => $todo->getUserId()
         ]);
-    }
-
-    public static function instancefromArray($data): Todo {
-        return new Todo(
-            $data['id'],
-            $data['title'],
-            $data['description'],
-            $data['priority'],
-            $data['status'],
-            $data['completed'],
-            $data['created_at'],
-            $data['updated_at'],
-            $data['completed_at'],
-            $data['user_id'],
-            $data['category_id']
-        );
     }
 }

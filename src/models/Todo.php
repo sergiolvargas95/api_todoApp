@@ -95,10 +95,10 @@ class Todo {
         return $this->completed;
     }
 
-    public function setCompleted(int $completed): self {
-        $this->completed = $completed;
-
-        return $this;
+    public function setCompleted(bool $completed) {
+        if ($completed && !$this->isCompleted()) {
+            $this->setCompletedAt(date('Y-m-d H:i:s'));
+        }
     }
 
     public function getCreatedAt(): string {
@@ -150,5 +150,21 @@ class Todo {
         $this->category_id = $category_id;
 
         return $this;
+    }
+
+    public static function instancefromArray($data): Todo {
+        return new Todo(
+            $data['id'],
+            $data['title'],
+            $data['description'],
+            $data['priority'],
+            $data['status'],
+            $data['completed'],
+            $data['created_at'],
+            $data['updated_at'],
+            $data['completed_at'],
+            $data['user_id'],
+            $data['category_id']
+        );
     }
 }
