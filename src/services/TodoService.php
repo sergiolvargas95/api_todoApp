@@ -31,7 +31,7 @@ class TodoService {
             $data['completed'],
             date('Y-m-d H:i:s'),
             date('Y-m-d H:i:s'),
-            0,
+            NULL,
             $data['user_id'],
             $data['category_id']
         );
@@ -40,7 +40,7 @@ class TodoService {
     }
 
     public function updateTodo(array $data) {
-        $todo = TodoRepository::fromArray($this->getTodoById($data['id']));
+        $todo = TodoRepository::instancefromArray($this->getTodoById($data['id']));
 
         if(!empty($todo)) {
             if(isset($data['title'])) {
