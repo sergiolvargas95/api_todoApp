@@ -2,6 +2,7 @@
 namespace Todo\Admin\services;
 
 use Exception;
+use Todo\Admin\factories\TodoFactory;
 use Todo\Admin\models\Todo;
 use Todo\Admin\repositories\TodoRepository;
 
@@ -46,7 +47,7 @@ class TodoService {
             return false;
         }
 
-        $todo = Todo::instancefromArray($todo);
+        $todo = TodoFactory::createFromArray($todo);
 
         if(!empty($todo)) {
             if(isset($data['title'])) {
