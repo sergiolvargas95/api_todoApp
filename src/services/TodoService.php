@@ -31,7 +31,7 @@ class TodoService {
             $data['completed'],
             date('Y-m-d H:i:s'),
             date('Y-m-d H:i:s'),
-            0,
+            NULL,
             $data['user_id'],
             $data['category_id']
         );
@@ -40,7 +40,13 @@ class TodoService {
     }
 
     public function updateTodo(array $data) {
-        $todo = TodoRepository::fromArray($this->getTodoById($data['id']));
+        $todo = $this->getTodoById($data['id']);
+
+        if(!$todo) {
+            return false;
+        }
+
+        $todo = Todo::instancefromArray($todo);
 
         if(!empty($todo)) {
             if(isset($data['title'])) {
@@ -55,8 +61,8 @@ class TodoService {
                 $todo->setStatus($data['status']);
             }
 
-            if(!$todo->isCompleted() && isset($data['completed']) && $data['completed'] === true) {
-                $todo->setCompletedAt(date('Y-m-d H:i:s'));
+            if(isset($data['completed'])) {
+                $todo->setCompletedAt($data['completed']);
             }
 
             if(isset($data['completed'])) {
@@ -67,12 +73,9 @@ class TodoService {
                 $todo->setCategoryId($data['category_id']);
             }
 
-
             $todo->setUpdatedAt(date('Y-m-d H:i:s'));
             $todo->setDescription($data['description']);
             return $this->todoRepository->update($todo);
-        } else {
-            throw new Exception("The to-do with id" . $data['id'] . "doesn't exist.");
         }
     }
 }

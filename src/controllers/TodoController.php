@@ -25,18 +25,17 @@ class TodoController {
 
         if (!$data || !isset($data['title'], $data['priority'], $data['status'], $data['user_id'], $data['completed'])) {
             http_response_code(400);
-            echo json_encode(["error" => "Invalid Data"]);
-            return;
+            return json_encode(["error" => "Invalid Data"]);
         }
 
         $success = $this->todoService->createTodo($data);
 
         if ($success) {
             http_response_code(201);
-            echo json_encode(["message" => "To-Do created Succesfully"]);
+            return json_encode(["message" => "To-Do created Succesfully"]);
         } else {
             http_response_code(500);
-            echo json_encode(["error" => "Error creating To-Do"]);
+            return json_encode(["error" => "Error creating To-Do"]);
         }
     }
 
@@ -45,18 +44,17 @@ class TodoController {
 
         if (!$data || !isset($data['title'], $data['priority'], $data['status'], $data['user_id'], $data['completed'])) {
             http_response_code(400);
-            echo json_encode(["error" => "Invalid Data"]);
-            return;
+            return json_encode(["error" => "Invalid Data"]);
         }
 
         $success = $this->todoService->updateTodo($data);
 
         if ($success) {
             http_response_code(201);
-            echo json_encode(["message" => "To-Do updated Succesfully"]);
+            return json_encode(["message" => "To-Do updated Succesfully"]);
         } else {
             http_response_code(500);
-            echo json_encode(["error" => "Error updating To-Do"]);
+            return json_encode(["error" => "Error updating To-Do"]);
         }
     }
 }

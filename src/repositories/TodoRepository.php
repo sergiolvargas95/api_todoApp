@@ -13,14 +13,14 @@ class TodoRepository implements ITodoRepository {
         $this->db = $db;
     }
 
-    public function getAll() {
+    public function getAll(): array {
         $stmt = $this->db->query("SELECT id, title, description, priority, status, completed, user_id, category_id
                                     FROM todos");
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getById(int $id) {
+    public function getById(int $id): bool|array {
         $stmt = $this->db->prepare("SELECT id, title, description, priority, status, completed, created_at, updated_at, completed_at, user_id, category_id
                                     FROM todos WHERE id = :id");
 
@@ -31,7 +31,7 @@ class TodoRepository implements ITodoRepository {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function create(Todo $todo) {
+    public function create(Todo $todo): bool {
         $stmt = $this->db->prepare("INSERT INTO todos (title, description, priority, status, completed, created_at, updated_at, completed_at, user_id, category_id)
                                     VALUES (:title, :description, :priority, :status, :completed, :created_at, :updated_at, :completed_at, :user_id, :category_id)");
 
@@ -49,7 +49,7 @@ class TodoRepository implements ITodoRepository {
         ]);
     }
 
-    public function update(Todo $todo) {
+    public function update(Todo $todo): bool {
         $stmt = $this->db->prepare("UPDATE todos
                                     SET title = :title,
                                         description = :description,
@@ -73,21 +73,5 @@ class TodoRepository implements ITodoRepository {
             ":category_id" => $todo->getCategoryId(),
             ":user_id" => $todo->getUserId()
         ]);
-    }
-
-    public static function fromArray($data) {
-        return new Todo(
-            $data['id'],
-            $data['title'],
-            $data['description'],
-            $data['priority'],
-            $data['status'],
-            $data['completed'],
-            $data['created_at'],
-            $data['updated_at'],
-            $data['completed_at'],
-            $data['user_id'],
-            $data['category_id']
-        );
     }
 }

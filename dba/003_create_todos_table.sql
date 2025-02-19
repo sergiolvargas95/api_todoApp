@@ -1,4 +1,4 @@
--- 002_create_todos_table.sql
+-- 003_create_todos_table.sql
 CREATE TABLE todos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,

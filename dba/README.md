@@ -7,5 +7,5 @@
 
 ## Changelog
 - **001_create_users_table.sql**: Creates `users` table.
-- **002_create_tasks_table.sql**: Creates `tasks` table.
-- **003_alter_users_add_profile_pic.sql**: Adds `profile_pic` column to `users`.
+- **002_create_categories_table.sql**: Creates `categories` table.
+- **003_create_todos_table.sql**: Creates `todos` table.
