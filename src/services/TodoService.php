@@ -63,10 +63,6 @@ class TodoService {
             }
 
             if(isset($data['completed'])) {
-                $todo->setCompletedAt($data['completed']);
-            }
-
-            if(isset($data['completed'])) {
                 $todo->setCompleted($data['completed']);
             }
 
@@ -76,6 +72,7 @@ class TodoService {
 
             $todo->setUpdatedAt(date('Y-m-d H:i:s'));
             $todo->setDescription($data['description']);
+
             return $this->todoRepository->update($todo);
         }
     }

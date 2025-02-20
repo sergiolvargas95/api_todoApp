@@ -1,22 +1,22 @@
 <?php
 
-use Todo\Admin\config\Database;
-use Todo\Admin\controllers\TodoController;
-use Todo\Admin\repositories\TodoRepository;
-use Todo\Admin\services\TodoService;
+use Dotenv\Dotenv;
+use Bramus\Router\Router;
+use Todo\Admin\config\ContainerConfig;
 
 require __DIR__  . '/../../vendor/autoload.php';
 
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../');
+$dotenv = Dotenv::createImmutable(__DIR__ . '/../../');
 $dotenv->load();
 
-$db = Database::getInstance();
-$repository = new TodoRepository($db->getConnection());
-$service = new TodoService($repository);
-$controller = new TodoController($service);
+/**
+ * DI Container
+ */
+$container = ContainerConfig::create();
+$controller = $container->get(Todo\Admin\controllers\TodoController::class);
 
-$router = new \Bramus\Router\Router();
+$router = new Router();
 
 $router->get('/todos', function() use ($controller){
     echo $controller->getAll();
