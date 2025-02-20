@@ -2,7 +2,7 @@
 
 namespace Todo\Admin\models;
 
-class Categoty {
+class Category {
     private ?int $id;
     private $name;
     private $color;
@@ -13,39 +13,30 @@ class Categoty {
         $this->color = $color;
     }
 
-    public function getId(): ?int
-    {
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function setId(?int $id): self
-    {
+    public function setId(?int $id): self {
         $this->id = $id;
-
         return $this;
     }
 
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
-    public function setName($name): self
-    {
+    public function setName($name): self {
         $this->name = $name;
-
         return $this;
     }
 
-    public function getColor()
-    {
+    public function getColor() {
         return $this->color;
     }
 
-    public function setColor($color): self
-    {
+    public function setColor($color): self {
         $this->color = $color;
-
         return $this;
     }
 }
