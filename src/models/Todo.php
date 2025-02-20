@@ -151,20 +151,4 @@ class Todo {
 
         return $this;
     }
-
-    public static function instancefromArray($data): Todo {
-        return new Todo(
-            $data['id'],
-            $data['title'],
-            $data['description'],
-            $data['priority'],
-            $data['status'],
-            $data['completed'],
-            $data['created_at'],
-            $data['updated_at'],
-            $data['completed_at'],
-            $data['user_id'],
-            $data['category_id']
-        );
-    }
 }
