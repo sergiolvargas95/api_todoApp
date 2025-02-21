@@ -1,5 +1,7 @@
 <?php
 
+namespace Todo\Admin\services;
+
 use Todo\Admin\factories\CategoryFactory;
 use Todo\Admin\repositories\CategoryRepository;
 

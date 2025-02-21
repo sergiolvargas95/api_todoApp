@@ -14,24 +14,51 @@ $dotenv->load();
  * DI Container
  */
 $container = ContainerConfig::create();
-$controller = $container->get(Todo\Admin\controllers\TodoController::class);
+$tocoController = $container->get(Todo\Admin\controllers\TodoController::class);
+$categoryController = $container->get(Todo\Admin\controllers\CategoryController::class);
 
 $router = new Router();
 
-$router->get('/todos', function() use ($controller){
-    echo $controller->getAll();
+/**
+ * Todos
+ */
+$router->get('/todos', function() use ($tocoController){
+    echo $tocoController->getAll();
 });
 
-$router->get('/todos/{id}', function($id) use ($controller){
-    echo $controller->getById($id);
+$router->get('/todos/{id}', function($id) use ($tocoController){
+    echo $tocoController->getById($id);
 });
 
-$router->post('/todos', function() use ($controller) {
-    echo $controller->create();
+$router->post('/todos', function() use ($tocoController) {
+    echo $tocoController->create();
 });
 
-$router->put('/todos', function() use ($controller){
-    echo $controller->update();
+$router->put('/todos', function() use ($tocoController){
+    echo $tocoController->update();
+});
+
+/**
+ * Categories
+ */
+$router->get('/categories', function() use ($categoryController) {
+    echo $categoryController->getAll();
+});
+
+$router->get('/categories/{id}', function($id) use ($categoryController) {
+    echo $categoryController->getById($id);
+});
+
+$router->post('/categories', function() use ($categoryController){
+    echo $categoryController->create();
+});
+
+$router->put('/categories', function() use ($categoryController) {
+    echo $categoryController->update();
+});
+
+$router->delete('/categories/{id}', function($id) use ($categoryController) {
+    echo  $categoryController->delete($id);
 });
 
 $router->run();

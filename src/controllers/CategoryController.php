@@ -2,7 +2,7 @@
 
 namespace Todo\Admin\controllers;
 
-use CategoryService;
+use Todo\Admin\services\CategoryService;
 
 class CategoryController {
     private $categoryService;
@@ -58,6 +58,13 @@ class CategoryController {
     }
 
     public function delete(int $id) {
-        return $this->categoryService->deleteCategory($id);
-    }
+        $success = $this->categoryService->deleteCategory($id);
+        if($success) {
+                http_response_code(201);
+                return json_encode(["message" => "Category deleted Succesfully"]);
+            } else {
+                http_response_code(500);
+                return json_encode(["error" => "Error deleting Category"]);
+            }
+        }
 }

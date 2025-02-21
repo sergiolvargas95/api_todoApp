@@ -4,7 +4,7 @@ namespace Todo\Admin\interfaces;
 
 use Todo\Admin\models\Category;
 
-interface ICategoryRepositoy {
+interface ICategoryRepository {
     public function getAll(): array;
     public function getById(int $id): bool | array;
     public function create(Category $category): bool;

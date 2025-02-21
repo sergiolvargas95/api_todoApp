@@ -3,10 +3,10 @@
 namespace Todo\Admin\repositories;
 
 use PDO;
-use Todo\Admin\interfaces\ICategoryRepositoy;
+use Todo\Admin\interfaces\ICategoryRepository;
 use Todo\Admin\models\Category;
 
-class CategoryRepository implements ICategoryRepositoy{
+class CategoryRepository implements ICategoryRepository {
     private $db;
 
     public function __construct(PDO $db) {
@@ -25,7 +25,7 @@ class CategoryRepository implements ICategoryRepositoy{
                                     WHERE id = :id");
 
         $stmt->execute([
-            $id
+            ":id" => $id
         ]);
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -46,15 +46,17 @@ class CategoryRepository implements ICategoryRepositoy{
                                     WHERE id = :id");
 
         return $stmt->execute([
-            $category->getId(),
+            ":id" => $category->getId(),
+            ":name" => $category->getName(),
+            ":color" => $category->getColor()
         ]);
     }
 
     public function delete(int $id): bool {
-        $stmt = $this->db->prepare("DELETE categories WHERE id = :id");
+        $stmt = $this->db->prepare("DELETE FROM categories WHERE id = :id");
 
         return $stmt->execute([
-            $id
+            ":id" => $id
         ]);
     }
 }
