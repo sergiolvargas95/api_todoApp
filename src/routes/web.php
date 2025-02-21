@@ -23,11 +23,15 @@ $router = new Router();
  * Todos
  */
 $router->get('/todos', function() use ($tocoController){
-    echo $tocoController->getAll();
+    //TODO: modificar cuando se implemente autenticación
+    $user_id = $_GET['user_id'] ?? null;
+    echo $tocoController->getAll($user_id);
 });
 
 $router->get('/todos/{id}', function($id) use ($tocoController){
-    echo $tocoController->getById($id);
+    //TODO: modificar cuando se implemente autenticación
+    $user_id = $_GET['user_id'] ?? null;
+    echo $tocoController->getById($id, $user_id);
 });
 
 $router->post('/todos', function() use ($tocoController) {
