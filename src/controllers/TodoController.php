@@ -12,12 +12,12 @@ class TodoController {
         $this->todoService = $todoService;
     }
 
-    public function getAll() {
-        return json_encode($this->todoService->getAllTodos());
+    public function getAll(int $user_id) {
+        return json_encode($this->todoService->getAllTodos($user_id));
     }
 
-    public function getById(int $id) {
-        return json_encode($this->todoService->getTodoById($id));
+    public function getById(int $id, int $user_id) {
+        return json_encode($this->todoService->getTodoById($id, $user_id));
     }
 
     public function create() {

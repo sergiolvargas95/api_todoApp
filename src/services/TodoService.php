@@ -11,12 +11,12 @@ class TodoService {
         $this->todoRepository = $todoRepository;
     }
 
-    public function getAllTodos() {
-        return $this->todoRepository->getAll();
+    public function getAllTodos(int $user_id) {
+        return $this->todoRepository->getAll($user_id);
     }
 
-    public function getTodoById(int $id) {
-        return $this->todoRepository->getById($id);
+    public function getTodoById(int $id, int $user_id) {
+        return $this->todoRepository->getById($id, $user_id);
     }
 
     public function createTodo(array $data) {
@@ -27,7 +27,7 @@ class TodoService {
     }
 
     public function updateTodo(array $data) {
-        $todo = $this->getTodoById($data['id']);
+        $todo = $this->getTodoById($data['id'], $data['user_id']);
 
         if(!$todo) {
             return false;

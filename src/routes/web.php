@@ -23,11 +23,15 @@ $router = new Router();
  * Todos
  */
 $router->get('/todos', function() use ($tocoController){
-    echo $tocoController->getAll();
+    //TODO: modificar cuando se implemente autenticación
+    $user_id = $_GET['user_id'] ?? null;
+    echo $tocoController->getAll($user_id);
 });
 
 $router->get('/todos/{id}', function($id) use ($tocoController){
-    echo $tocoController->getById($id);
+    //TODO: modificar cuando se implemente autenticación
+    $user_id = $_GET['user_id'] ?? null;
+    echo $tocoController->getById($id, $user_id);
 });
 
 $router->post('/todos', function() use ($tocoController) {
@@ -42,11 +46,15 @@ $router->put('/todos', function() use ($tocoController){
  * Categories
  */
 $router->get('/categories', function() use ($categoryController) {
-    echo $categoryController->getAll();
+    //TODO: modificar cuando se implemente autenticación
+    $user_id = $_GET['user_id'] ?? null;
+    echo $categoryController->getAll($user_id);
 });
 
 $router->get('/categories/{id}', function($id) use ($categoryController) {
-    echo $categoryController->getById($id);
+    //TODO: modificar cuando se implemente autenticación
+    $user_id = $_GET['user_id'] ?? null;
+    echo $categoryController->getById($id, $user_id);
 });
 
 $router->post('/categories', function() use ($categoryController){
@@ -58,7 +66,9 @@ $router->put('/categories', function() use ($categoryController) {
 });
 
 $router->delete('/categories/{id}', function($id) use ($categoryController) {
-    echo  $categoryController->delete($id);
+    //TODO: modificar cuando se implemente autenticación
+    $user_id = $_GET['user_id'] ?? null;
+    echo  $categoryController->delete($id, $user_id);
 });
 
 $router->run();

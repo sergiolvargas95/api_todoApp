@@ -9,7 +9,8 @@ class CategoryFactory {
         return new Category(
             $data['id'],
             $data['name'],
-            $data['color']
+            $data['color'],
+            $data['user_id']
         );
     }
 }

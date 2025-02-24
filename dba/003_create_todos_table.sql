@@ -8,7 +8,5 @@ CREATE TABLE todos (
     completed BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    completed_at DATETIME NULL,
-    user_id INT NOT NULL,
-    category_id INT NULL
+    completed_at DATETIME NULL
 );
