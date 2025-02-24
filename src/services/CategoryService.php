@@ -52,7 +52,7 @@ class CategoryService {
         if(!$category) {
             return false;
         }
-        var_dump($category);die;
+
         return $this->categoryRepository->delete($category['id'], $category['user_id']);
     }
 }
