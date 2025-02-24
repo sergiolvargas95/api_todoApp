@@ -11,12 +11,12 @@ class CategoryController {
         $this->categoryService = $categoryService;
     }
 
-    public function getAll() {
-        return json_encode($this->categoryService->getAllCategories());
+    public function getAll(int $user_id) {
+        return json_encode($this->categoryService->getAllCategories($user_id));
     }
 
-    public function getById(int $id) {
-        return json_encode($this->categoryService->getCategoryById($id));
+    public function getById(int $id, int $user_id) {
+        return json_encode($this->categoryService->getCategoryById($id, $user_id));
     }
 
     public function create() {
@@ -48,6 +48,7 @@ class CategoryController {
 
         $success = $this->categoryService->updateCategory($data);
 
+        var_dump($success);die;
         if($success) {
             http_response_code(201);
             return json_encode(["message" => "Category updated Succesfully"]);
@@ -57,8 +58,8 @@ class CategoryController {
         }
     }
 
-    public function delete(int $id) {
-        $success = $this->categoryService->deleteCategory($id);
+    public function delete(int $id, int $user_id) {
+        $success = $this->categoryService->deleteCategory($id, $user_id);
         if($success) {
                 http_response_code(201);
                 return json_encode(["message" => "Category deleted Succesfully"]);

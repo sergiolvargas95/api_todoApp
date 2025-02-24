@@ -12,12 +12,12 @@ class CategoryService {
         $this->categoryRepository = $categoryRepository;
     }
 
-    public function getAllCategories() {
-        return $this->categoryRepository->getAll();
+    public function getAllCategories(int $user_id) {
+        return $this->categoryRepository->getAll($user_id);
     }
 
-    public function getCategoryById(int $id) {
-        return $this->categoryRepository->getById($id);
+    public function getCategoryById(int $id, int $user_id) {
+        return $this->categoryRepository->getById($id, $user_id);
     }
 
     public function createCategory(array $data): bool {
@@ -27,7 +27,7 @@ class CategoryService {
     }
 
     public function updateCategory(array $data): bool {
-        $category = $this->categoryRepository->getById($data['id']);
+        $category = $this->categoryRepository->getById($data['id'], $data['user_id']);
 
         if(!$category) {
             return false;
@@ -46,13 +46,13 @@ class CategoryService {
         return $this->categoryRepository->update($category);
     }
 
-    public function deleteCategory(int $id) {
-        $category = $this->categoryRepository->getById($id);
+    public function deleteCategory(int $id, int $user_id) {
+        $category = $this->categoryRepository->getById($id, $user_id);
 
         if(!$category) {
             return false;
         }
-
-        return $this->categoryRepository->delete($category['id']);
+        var_dump($category);die;
+        return $this->categoryRepository->delete($category['id'], $category['user_id']);
     }
 }
