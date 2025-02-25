@@ -14,21 +14,21 @@ class AuthService {
     }
 
     public function registerUser(array $data) {
-        if ($data['password'] !== $data['confirm_password']) {
-            return "Passwords must be identical";
-        }
-
-        if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-            return "Invalid email format";
-        }
-
-        if (strlen($data['password']) < 8) {
-            return "Password must be at least 8 characters long";
-        }
-
-        $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
-
         try {
+            if ($data['password'] !== $data['confirm_password']) {
+                throw new Exception("Passwords must be identical");
+            }
+
+            if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+                throw new Exception("Invalid email format");
+            }
+
+            if (strlen($data['password']) < 8) {
+                throw new Exception("Password must be at least 8 characters long");
+            }
+
+            $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+
             $user = UserFactory::createFromArray($data);
             return $this->authRepository->register($user);
         } catch (Exception $e) {
