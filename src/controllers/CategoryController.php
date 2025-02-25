@@ -48,7 +48,6 @@ class CategoryController {
 
         $success = $this->categoryService->updateCategory($data);
 
-        var_dump($success);die;
         if($success) {
             http_response_code(201);
             return json_encode(["message" => "Category updated Succesfully"]);
