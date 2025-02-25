@@ -24,7 +24,7 @@ class CategoryController {
 
         if(!$data || !isset($data['name'], $data['color'])) {
             http_response_code(400);
-            json_encode(["error" => "Invalid data"]);
+            return json_encode(["error" => "Invalid data"]);
         }
 
         $success = $this->categoryService->createCategory($data);
