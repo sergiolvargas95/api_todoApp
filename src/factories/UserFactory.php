@@ -1,5 +1,7 @@
 <?php
 
+namespace Todo\Admin\factories;
+
 use Todo\Admin\models\User;
 
 class UserFactory {
@@ -10,7 +12,7 @@ class UserFactory {
             $data['lastName'],
             $data['email'],
             $data['password'],
-            $data['profile_picture'],
+            $data['profilePicture'],
             $data['created_at'],
             $data['updated_at']
         );

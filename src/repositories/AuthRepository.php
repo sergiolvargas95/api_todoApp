@@ -18,7 +18,7 @@ class AuthRepository implements IAuthRepository {
     }
 
     public function register(User $user) {
-        $stmt = $this->db->prepare("INSERT INTO users (name, last_name, email, password, profile_picture, created_at, updated_at)
+        $stmt = $this->db->prepare("INSERT INTO users (name, last_name, email, password_hash, profile_picture, created_at, updated_at)
                                     VALUES (:name, :last_name, :email, :password, :profile_picture, :created_at, :updated_at )");
         return $stmt->execute([
             ":name" => $user->getName(),

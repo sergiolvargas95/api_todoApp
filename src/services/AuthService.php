@@ -3,7 +3,7 @@
 namespace Todo\Admin\services;
 
 use Exception;
-use UserFactory;
+use Todo\Admin\factories\UserFactory;
 use Todo\Admin\repositories\AuthRepository;
 
 class AuthService {
@@ -13,7 +13,7 @@ class AuthService {
         $this->authRepository = $authRepository;
     }
 
-    public function register(array $data) {
+    public function registerUser(array $data) {
         if ($data['password'] !== $data['confirm_password']) {
             return "Passwords must be identical";
         }

@@ -4,10 +4,13 @@ namespace Todo\Admin\config;
 
 use DI\Container;
 use Todo\Admin\config\Database;
+use Todo\Admin\controllers\AuthController;
 use Todo\Admin\controllers\TodoController;
 use Todo\Admin\controllers\CategoryController;
+use Todo\Admin\repositories\AuthRepository;
 use Todo\Admin\repositories\TodoRepository;
 use Todo\Admin\repositories\CategoryRepository;
+use Todo\Admin\services\AuthService;
 use Todo\Admin\services\TodoService;
 use Todo\Admin\services\CategoryService;
 
@@ -29,6 +32,10 @@ class ContainerConfig {
             return new CategoryRepository($container->get(Database::class)->getConnection());
         });
 
+        $container->set(AuthRepository::class, function($container) {
+            return new AuthRepository($container->get(Database::class)->getConnection());
+        });
+
         // Services
         $container->set(TodoService::class, function($container) {
             return new TodoService($container->get(TodoRepository::class));
@@ -38,6 +45,11 @@ class ContainerConfig {
             return new CategoryService($container->get(CategoryRepository::class));
         });
 
+        $container->set(AuthService::class, function($container) {
+            return new AuthService($container->get(AuthRepository::class));
+        });
+
+
         // Controllers
         $container->set(TodoController::class, function($container) {
             return new TodoController($container->get(TodoService::class));
@@ -46,6 +58,11 @@ class ContainerConfig {
         $container->set(CategoryController::class, function($container) {
             return new CategoryController($container->get(CategoryService::class));
         });
+
+        $container->set(AuthController::class, function($container) {
+            return new AuthController($container->get(AuthService::class));
+        });
+
 
         return $container;
     }

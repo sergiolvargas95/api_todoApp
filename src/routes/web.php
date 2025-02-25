@@ -16,6 +16,7 @@ $dotenv->load();
 $container = ContainerConfig::create();
 $todoController = $container->get(Todo\Admin\controllers\TodoController::class);
 $categoryController = $container->get(Todo\Admin\controllers\CategoryController::class);
+$authController = $container->get(Todo\Admin\controllers\AuthController::class);
 
 $router = new Router();
 
@@ -24,7 +25,7 @@ $router = new Router();
  */
 
 $router->post('/register', function() use ($authController) {
-
+    echo $authController->register();
 });
 
 $router->post('/login', function() use ($authController) {
