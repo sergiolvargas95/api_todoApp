@@ -59,18 +59,27 @@ class AuthService {
      * @return void
      */
     public function loginUser(array $data) {
-        try {
             $user = $this->authRepository->findUserByEmail($data['email']);
 
             if(!isset($user)) {
-                throw new Exception("The user doesn't exist.");
+                throw new ValidationException("User doesn't exist.");
             }
 
-            if($user && password_verify($data['password'], $user['password_hash'])) {
-
+            if(!password_verify($data['password'], $user['password_hash'])) {
+                throw new ValidationException("Invalid credentials.");
             }
-        } catch (Exception $e) {
-            return "Error login user: " . $e->getMessage();
-        }
+
+            return [
+                "token" => $this->generateToken($user),
+                "user" => [
+                    "id" => $user['id'],
+                    "name" => $user['name'],
+                    "email" => $user['email']
+                ],
+            ];
+    }
+
+    public function generateToken($user) {
+
     }
 }
