@@ -2,6 +2,7 @@
 
 namespace Todo\Admin\controllers;
 
+use Todo\Admin\exceptions\ValidationException;
 use Todo\Admin\services\AuthService;
 
 class AuthController {
@@ -19,16 +20,15 @@ class AuthController {
             return json_encode(["error"  => "Invalid data"]);
         }
 
-        $success = $this->authService->registerUser($data);
-        var_dump($success);die;
-        if ($success) {
+        try {
+            $this->authService->registerUser($data);
+
             http_response_code(201);
             return json_encode(["message" => "User created Succesfully"]);
-        } else {
+        } catch (ValidationException $e) {
             http_response_code(500);
-            return json_encode(["error" => "Error creating User"]);
+            return json_encode(["error" => $e->getMessage()]);
         }
-
 
     }
 

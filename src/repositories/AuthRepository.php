@@ -13,8 +13,10 @@ class AuthRepository implements IAuthRepository {
         $this->db = $db;
     }
 
-    public function login() {
-
+    public function emailExists(string $email) {
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM users WHERE email = :email");
+        $stmt->execute([":email" => $email]);
+        return $stmt->fetchColumn() > 0;
     }
 
     public function register(User $user) {
@@ -31,7 +33,13 @@ class AuthRepository implements IAuthRepository {
         ]);
     }
 
-    public function logout(){
-        
+    public function findUserByEmail(User $user) {
+        $stmt = $this->db->prepare("SELECT name, password_hash FROM users WHERE email = :email");
+
+        $stmt->execute([
+            "email" => $user->getEmail()
+        ]);
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }
