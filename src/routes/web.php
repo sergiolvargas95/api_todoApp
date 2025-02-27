@@ -58,14 +58,12 @@ $router->post('/logout', function() use ($authController) {
  * Todos
  */
 $router->get('/todos', function() use ($todoController){
-    //TODO: modificar cuando se implemente autenticación
-    $user_id = $_GET['user_id'] ?? null;
+    $user_id = $_SERVER['AUTH_USER_ID'];
     echo $todoController->getAll($user_id);
 });
 
 $router->get('/todos/{id}', function($id) use ($todoController){
-    //TODO: modificar cuando se implemente autenticación
-    $user_id = $_GET['user_id'] ?? null;
+    $user_id = $_SERVER['AUTH_USER_ID'];
     echo $todoController->getById($id, $user_id);
 });
 
@@ -81,14 +79,12 @@ $router->put('/todos', function() use ($todoController){
  * Categories
  */
 $router->get('/categories', function() use ($categoryController) {
-    //TODO: modificar cuando se implemente autenticación
-    $user_id = $_GET['user_id'] ?? null;
+    $user_id = $_SERVER['AUTH_USER_ID'];
     echo $categoryController->getAll($user_id);
 });
 
 $router->get('/categories/{id}', function($id) use ($categoryController) {
-    //TODO: modificar cuando se implemente autenticación
-    $user_id = $_GET['user_id'] ?? null;
+    $user_id = $_SERVER['AUTH_USER_ID'];
     echo $categoryController->getById($id, $user_id);
 });
 
@@ -101,8 +97,7 @@ $router->put('/categories', function() use ($categoryController) {
 });
 
 $router->delete('/categories/{id}', function($id) use ($categoryController) {
-    //TODO: modificar cuando se implemente autenticación
-    $user_id = $_GET['user_id'] ?? null;
+    $user_id = $_SERVER['AUTH_USER_ID'];
     echo  $categoryController->delete($id, $user_id);
 });
 
