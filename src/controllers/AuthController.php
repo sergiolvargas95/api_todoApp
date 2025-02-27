@@ -24,7 +24,10 @@ class AuthController {
 
         if(!$data || !isset($data['name'], $data['lastName'], $data['email'], $data['password'])){
             http_response_code(400);
-            
+            return json_encode([
+                "error" => true,
+                "message" => "Invalid data"
+            ]);
         }
 
         try {
@@ -48,6 +51,7 @@ class AuthController {
         $data = json_decode(file_get_contents("php://input"), true);
 
         if(!$data || !isset($data['email'], $data['password'])) {
+            http_response_code(500);
             return json_encode([
                 "error" => true,
                 "message" => "Invalid data"
@@ -57,12 +61,11 @@ class AuthController {
         try {
             $result = $this->authService->loginUser($data);
 
+            header("Authorization: Bearer " . $result['token']);
             http_response_code(200);
-
             return json_encode([
                 "error" => false,
                 "message" => "Login Successful",
-                "token" => $result["token"],
                 "user" => $result["user"]
             ]);
         } catch (ValidationException $e) {

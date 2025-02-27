@@ -2,7 +2,7 @@
 
 namespace Todo\Admin\services;
 
-use Exception;
+use Firebase\JWT\JWT;
 use Todo\Admin\exceptions\ValidationException;
 use Todo\Admin\factories\UserFactory;
 use Todo\Admin\repositories\AuthRepository;
@@ -80,6 +80,14 @@ class AuthService {
     }
 
     public function generateToken($user) {
+        $key = $_ENV['JWT_SECRET_KEY'];
 
+        $payload = [
+            "user_id" => $user['id'],
+            "email" => $user['email'],
+            "exp" => time() + 3600
+        ];
+
+        return JWT::encode($payload, $key, "HS256");
     }
 }

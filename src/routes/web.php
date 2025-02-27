@@ -3,6 +3,8 @@
 use Dotenv\Dotenv;
 use Bramus\Router\Router;
 use Todo\Admin\config\ContainerConfig;
+use Todo\Admin\middlewares\AuthMiddleware;
+use Todo\Admin\exceptions\UnauthorizedException;
 
 require __DIR__  . '/../../vendor/autoload.php';
 
@@ -20,6 +22,17 @@ $authController = $container->get(Todo\Admin\controllers\AuthController::class);
 
 $router = new Router();
 
+$router->before('GET|POST|PUT|DELETE', '/.*', function() {
+    try {
+        AuthMiddleware::handle();
+    } catch (UnauthorizedException $e) {
+        http_response_code(401);
+        echo json_encode(["error" => $e->getMessage()]);
+        exit;
+    }
+});
+
+/************************************* Public Routes *************************************/
 /**
  * Auth
  */
@@ -29,9 +42,14 @@ $router->post('/register', function() use ($authController) {
 });
 
 $router->post('/login', function() use ($authController) {
-
+    echo $authController->login();
 });
 
+/************************************* Private Routes *************************************/
+
+/**
+ * Auth
+ */
 $router->post('/logout', function() use ($authController) {
 
 });

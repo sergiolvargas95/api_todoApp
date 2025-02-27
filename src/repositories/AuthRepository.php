@@ -33,11 +33,11 @@ class AuthRepository implements IAuthRepository {
         ]);
     }
 
-    public function findUserByEmail(User $user) {
-        $stmt = $this->db->prepare("SELECT name, password_hash FROM users WHERE email = :email");
+    public function findUserByEmail($email) {
+        $stmt = $this->db->prepare("SELECT id, name, password_hash, email FROM users WHERE email = :email");
 
         $stmt->execute([
-            "email" => $user->getEmail()
+            "email" => $email
         ]);
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
