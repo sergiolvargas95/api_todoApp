@@ -91,3 +91,29 @@ This project is built for performance, security, and maintainability, making it 
 ├── 📄 composer.lock
 ├── 📄 README.md
 ```
+## Main Components
+
+This project follows a modular architecture, organizing different layers to improve maintainability and scalability. Below is a breakdown of the key components of the application:
+
+- 📂 `config/:` Contains essential configuration files.
+- 📂 `controllers/:` Handles HTTP requests and contains the business logic.
+- 📂 `exceptions/:` Defines custom exceptions for handling specific application errors.
+- 📂 `factories/:` Contains factory classes for creating instances of models.
+- 📂 `interfaces/:` Defines repository interfaces to maintain abstraction.
+- 📂 `middlewares/:` Includes middleware for authentication and security handling:
+- 📂`AuthMiddleware.php`: Ensures the user is authenticated before accessing protected routes.
+- 📂 `models/:` Represents the domain entities of the application:
+- 📂 `public/:` Public directory containing assets and the entry point:
+- 📂 `repositories/:` Data access layer responsible for interacting with the database:
+- 📂 `routes/:` Defines the application's available routes:
+- 📂 `services/:` Contains business logic and application rules:
+- 📄 `bootstrap.php:` Initial configuration file to load dependencies and set up the application.
+- 📂 `vendor/:` Automatically generated directory by Composer that contains project dependencies.
+- 📄 `.env` / `.env.example:` Environment configuration files for managing sensitive variables.
+- 📄 `composer.json` / `composer.lock:` Composer configuration files that handle project dependencies.
+- 📄 `README.md:` Main documentation file for the repository.
+
+## Databases
+This project uses MySQL as the SQL database management system. MySQL works with relational databases, it uses multiple tables that are interconnected with each other to store information and organize it correctly.
+
+### Database Structure
