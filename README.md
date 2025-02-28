@@ -117,3 +117,95 @@ This project follows a modular architecture, organizing different layers to impr
 This project uses MySQL as the SQL database management system. MySQL works with relational databases, it uses multiple tables that are interconnected with each other to store information and organize it correctly.
 
 ### Database Structure
+
+#### 📋 `users`
+Stores user information and authentication data.
+- `id` (PK): Unique identifier for the user.
+- `name`: First name of the user.
+- `last_name`: Last name of the user.
+- `email`: Email address (unique).
+- `password_hash`: Hashed password for authentication.
+- `profile_picture`: URL of the user's profile picture.
+- `created_at`: Timestamp of account creation.
+- `updated_at`: Timestamp of the last update.
+
+#### 🏷️ `categories`
+Manages task categories assigned to users.
+- `id` (PK): Unique identifier for the category.
+- `name`: Category name.
+- `color`: Category color (for UI display).
+- `user_id` (FK → users.id): Links the category to a specific user.
+
+#### ✅ `todos`
+Stores tasks (to-do items) created by users.
+- `id` (PK): Unique identifier for the task.
+- `title`: Task title.
+- `description`: Detailed task description.
+- `priority`: Task priority level.
+- `status`: Current status of the task.
+- `completed`: Boolean flag indicating if the task is completed.
+- `created_at`: Timestamp of task creation.
+- `updated_at`: Timestamp of the last update.
+- `completed_at`: Timestamp when the task was marked as completed.
+- `user_id` (FK → users.id): Links the task to a specific user.
+- `category_id` (FK → categories.id): Links the task to a category.
+
+#### 🔒 `revoked_tokens`
+Manages authentication tokens that have been invalidated.
+- `id` (PK): Unique identifier for the revoked token.
+- `token`: The invalidated token.
+- `revoked_at`: Timestamp when the token was revoked.
+
+### 🔗 Relationships
+- Each **user** can have multiple **categories**.
+- Each **category** belongs to a single **user**.
+- Each **user** can create multiple **to-do tasks**.
+- Each **task** is linked to a **category** (optional).
+- The **revoked_tokens** table ensures that invalidated authentication tokens cannot be reused.
+
+![image](https://github.com/user-attachments/assets/9d696691-a0f6-4f79-b955-bbfe87fbda03)
+
+This schema ensures efficient task management while maintaining data security and integrity. 🚀
+
+## 🛠️ Installation Guide
+
+Follow the steps below to set up and run the project on your local environment.
+
+### ✅ Prerequisites
+
+Ensure you have the following installed on your system before proceeding:
+
+- **PHP 7.4 or later**  
+- **Composer** (Dependency manager for PHP)  
+- **Node.js & npm** (Required for real-time event support)  
+- **A Web Server** (Apache or Nginx recommended)  
+- **A Database Server** (MySQL or PostgreSQL recommended)  
+
+### 📦 Dependencies
+
+This project uses the following PHP libraries:
+
+| Package                     | Description |
+|-----------------------------|------------|
+| `vlucas/phpdotenv` `^5.6`   | Loads environment variables from a `.env` file. |
+| `bramus/router` `^1.6`      | Lightweight routing library for handling requests. |
+| `php-di/php-di` `^7.0`      | Dependency injection container for better code organization. |
+| `firebase/php-jwt` `^6.11`  | Library for JWT authentication handling. |
+
+### 📥 Installation Steps
+
+1. **Clone the repository**  
+ ```sh
+ git git@github.com:sergiolvargas95/api_todoApp.git
+ cd api_todoApp
+ ```
+2. Install PHP dependencies
+```sh
+composer install
+```
+Set up environment variables
+Copy the example environment file and configure it:
+```sh
+cp .env.example .env
+```
+
