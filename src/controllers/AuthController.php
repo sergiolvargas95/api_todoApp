@@ -81,6 +81,24 @@ class AuthController {
     }
 
     public function logout() {
+        $headers = getallheaders();
+        $authHeader = $headers['Authorization'] ?? '';
 
+        if (!$authHeader || !preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
+            http_response_code(400);
+            return json_encode(["error" => "Token missing"]);
+        }
+
+        $token = $matches[1];
+        try {
+
+            $this->authService->revokeToken($token);
+
+            http_response_code(200);
+            return json_encode(["message" => "Logged out successfully"]);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(["Error revoking token: " . $e->getMessage()]);
+        }
     }
 }

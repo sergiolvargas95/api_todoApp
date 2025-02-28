@@ -4,6 +4,7 @@ namespace Todo\Admin\middlewares;
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
+use PDO;
 use Todo\Admin\exceptions\UnauthorizedException;
 
 class AuthMiddleware {
@@ -12,7 +13,7 @@ class AuthMiddleware {
         '/register'
     ];
 
-    public static function handle() {
+    public static function handle($authRepository) {
         $requestUri = $_SERVER['REQUEST_URI'];
 
         if (in_array($requestUri, self::$publicRoutes)) {
@@ -30,6 +31,11 @@ class AuthMiddleware {
         }
 
         $token = $matches[1];
+
+        if ($authRepository->isTokenRevoked($token)) {
+            http_response_code(401);
+            echo json_encode(["error" => "Token revoked"]);
+        }
 
         try {
             $decoded = JWT::decode($token, new Key($_ENV['JWT_SECRET_KEY'], 'HS256'));

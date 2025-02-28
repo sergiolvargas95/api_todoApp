@@ -42,4 +42,22 @@ class AuthRepository implements IAuthRepository {
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function createRevokedToken($token) {
+        $stmt = $this->db->prepare("INSERT INTO revoked_tokens (token, revoked_at) VALUES (:token, NOW())");
+
+        return $stmt->execute([
+            ":token" => $token
+        ]);
+    }
+
+    public function isTokenRevoked($token):bool {
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM revoked_tokens WHERE token = :token");
+
+        $stmt->execute([
+            ":token" => $token
+        ]);
+
+        return $stmt->fetchColumn() > 0;
+    }
 }

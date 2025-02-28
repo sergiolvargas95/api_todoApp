@@ -19,12 +19,13 @@ $container = ContainerConfig::create();
 $todoController = $container->get(Todo\Admin\controllers\TodoController::class);
 $categoryController = $container->get(Todo\Admin\controllers\CategoryController::class);
 $authController = $container->get(Todo\Admin\controllers\AuthController::class);
+$authService = $container->get(Todo\Admin\services\AuthService::class);
 
 $router = new Router();
 
-$router->before('GET|POST|PUT|DELETE', '/.*', function() {
+$router->before('GET|POST|PUT|DELETE', '/.*', function() use ($authService) {
     try {
-        AuthMiddleware::handle();
+        AuthMiddleware::handle($authService);
     } catch (UnauthorizedException $e) {
         http_response_code(401);
         echo json_encode(["error" => $e->getMessage()]);
@@ -51,7 +52,7 @@ $router->post('/login', function() use ($authController) {
  * Auth
  */
 $router->post('/logout', function() use ($authController) {
-
+    echo $authController->logout();
 });
 
 /**

@@ -90,4 +90,15 @@ class AuthService {
 
         return JWT::encode($payload, $key, "HS256");
     }
+
+    public function revokeToken(string $token):bool {
+        if (!$token) {
+            return false;
+        }
+        return $this->authRepository->createRevokedToken($token);
+    }
+
+    public function isTokenRevoked($token) {
+        return $this->authRepository->isTokenRevoked($token);
+    }
 }
