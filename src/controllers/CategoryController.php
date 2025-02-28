@@ -24,7 +24,7 @@ class CategoryController {
 
         if(!$data || !isset($data['name'], $data['color'])) {
             http_response_code(400);
-            json_encode(["error" => "Invalid data"]);
+            return json_encode(["error" => "Invalid data"]);
         }
 
         $success = $this->categoryService->createCategory($data);
@@ -48,7 +48,6 @@ class CategoryController {
 
         $success = $this->categoryService->updateCategory($data);
 
-        var_dump($success);die;
         if($success) {
             http_response_code(201);
             return json_encode(["message" => "Category updated Succesfully"]);

@@ -3,6 +3,8 @@
 use Dotenv\Dotenv;
 use Bramus\Router\Router;
 use Todo\Admin\config\ContainerConfig;
+use Todo\Admin\middlewares\AuthMiddleware;
+use Todo\Admin\exceptions\UnauthorizedException;
 
 require __DIR__  . '/../../vendor/autoload.php';
 
@@ -14,46 +16,76 @@ $dotenv->load();
  * DI Container
  */
 $container = ContainerConfig::create();
-$tocoController = $container->get(Todo\Admin\controllers\TodoController::class);
+$todoController = $container->get(Todo\Admin\controllers\TodoController::class);
 $categoryController = $container->get(Todo\Admin\controllers\CategoryController::class);
+$authController = $container->get(Todo\Admin\controllers\AuthController::class);
+$authService = $container->get(Todo\Admin\services\AuthService::class);
 
 $router = new Router();
+
+$router->before('GET|POST|PUT|DELETE', '/.*', function() use ($authService) {
+    try {
+        AuthMiddleware::handle($authService);
+    } catch (UnauthorizedException $e) {
+        http_response_code(401);
+        echo json_encode(["error" => $e->getMessage()]);
+        exit;
+    }
+});
+
+/************************************* Public Routes *************************************/
+/**
+ * Auth
+ */
+
+$router->post('/register', function() use ($authController) {
+    echo $authController->register();
+});
+
+$router->post('/login', function() use ($authController) {
+    echo $authController->login();
+});
+
+/************************************* Private Routes *************************************/
+
+/**
+ * Auth
+ */
+$router->post('/logout', function() use ($authController) {
+    echo $authController->logout();
+});
 
 /**
  * Todos
  */
-$router->get('/todos', function() use ($tocoController){
-    //TODO: modificar cuando se implemente autenticación
-    $user_id = $_GET['user_id'] ?? null;
-    echo $tocoController->getAll($user_id);
+$router->get('/todos', function() use ($todoController){
+    $user_id = $_SERVER['AUTH_USER_ID'];
+    echo $todoController->getAll($user_id);
 });
 
-$router->get('/todos/{id}', function($id) use ($tocoController){
-    //TODO: modificar cuando se implemente autenticación
-    $user_id = $_GET['user_id'] ?? null;
-    echo $tocoController->getById($id, $user_id);
+$router->get('/todos/{id}', function($id) use ($todoController){
+    $user_id = $_SERVER['AUTH_USER_ID'];
+    echo $todoController->getById($id, $user_id);
 });
 
-$router->post('/todos', function() use ($tocoController) {
-    echo $tocoController->create();
+$router->post('/todos', function() use ($todoController) {
+    echo $todoController->create();
 });
 
-$router->put('/todos', function() use ($tocoController){
-    echo $tocoController->update();
+$router->put('/todos', function() use ($todoController){
+    echo $todoController->update();
 });
 
 /**
  * Categories
  */
 $router->get('/categories', function() use ($categoryController) {
-    //TODO: modificar cuando se implemente autenticación
-    $user_id = $_GET['user_id'] ?? null;
+    $user_id = $_SERVER['AUTH_USER_ID'];
     echo $categoryController->getAll($user_id);
 });
 
 $router->get('/categories/{id}', function($id) use ($categoryController) {
-    //TODO: modificar cuando se implemente autenticación
-    $user_id = $_GET['user_id'] ?? null;
+    $user_id = $_SERVER['AUTH_USER_ID'];
     echo $categoryController->getById($id, $user_id);
 });
 
@@ -66,8 +98,7 @@ $router->put('/categories', function() use ($categoryController) {
 });
 
 $router->delete('/categories/{id}', function($id) use ($categoryController) {
-    //TODO: modificar cuando se implemente autenticación
-    $user_id = $_GET['user_id'] ?? null;
+    $user_id = $_SERVER['AUTH_USER_ID'];
     echo  $categoryController->delete($id, $user_id);
 });
 
