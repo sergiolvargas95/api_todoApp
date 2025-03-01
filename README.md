@@ -208,4 +208,256 @@ Copy the example environment file and configure it:
 ```sh
 cp .env.example .env
 ```
+# 📌 API Documentation
+
+This document provides a detailed reference for the available API endpoints, following OpenAPI (Swagger) format.
+
+## 🛠️ Base URL
+```
+http://your-api-url.com
+```
+
+## 🔑 Authentication API
+
+### 📌 Register a New User
+```yaml
+POST /register
+```
+- **Description:** Registers a new user.
+- **Request Body:**
+  ```json
+  {
+    "name": "John",
+    "last_name": "Doe",
+    "email": "johndoe@example.com",
+    "password": "securepassword"
+  }
+  ```
+- **Responses:**
+  - ✅ `201 Created`
+    ```json
+    {
+      "message": "User registered successfully."
+    }
+    ```
+  - ❌ `400 Bad Request`
+    ```json
+    {
+      "error": "Email already exists."
+    }
+    ```
+
+### 📌 User Login
+```yaml
+POST /login
+```
+- **Description:** Authenticates the user and returns a JWT token.
+- **Request Body:**
+  ```json
+  {
+    "email": "johndoe@example.com",
+    "password": "securepassword"
+  }
+  ```
+- **Responses:**
+  - ✅ `200 OK`
+    ```json
+    {
+      "token": "your_jwt_token"
+    }
+    ```
+  - ❌ `401 Unauthorized`
+    ```json
+    {
+      "error": "Invalid credentials."
+    }
+    ```
+
+### 📌 User Logout
+```yaml
+POST /logout
+```
+- **Description:** Logs out the authenticated user.
+- **Headers:**
+  ```json
+  {
+    "Authorization": "Bearer your_jwt_token"
+  }
+  ```
+- **Responses:**
+  - ✅ `200 OK`
+    ```json
+    {
+      "message": "User logged out successfully."
+    }
+    ```
+  - ❌ `401 Unauthorized`
+    ```json
+    {
+      "error": "Invalid token."
+    }
+    ```
+
+---
+
+## ✅ Todos (Task Management)
+
+### 📌 Get All Todos
+```yaml
+GET /todos
+```
+- **Description:** Retrieves all todos for the authenticated user.
+- **Headers:**
+  ```json
+  {
+    "Authorization": "Bearer your_jwt_token"
+  }
+  ```
+- **Responses:**
+  - ✅ `200 OK`
+    ```json
+    [
+      {
+        "id": 1,
+        "title": "Complete project",
+        "description": "Finish the API implementation",
+        "priority": "High",
+        "status": "Pending",
+        "completed": false
+      }
+    ]
+    ```
+  - ❌ `401 Unauthorized`
+    ```json
+    {
+      "error": "Invalid token."
+    }
+    ```
+
+### 📌 Get Todo by ID
+```yaml
+GET /todos/{id}
+```
+- **Description:** Retrieves a specific todo by its ID.
+- **Responses:**
+  - ✅ `200 OK`
+    ```json
+    {
+      "id": 1,
+      "title": "Complete project",
+      "description": "Finish the API implementation",
+      "priority": "High",
+      "status": "Pending",
+      "completed": false
+    }
+    ```
+  - ❌ `404 Not Found`
+    ```json
+    {
+      "error": "Todo not found."
+    }
+    ```
+
+### 📌 Create a Todo
+```yaml
+POST /todos
+```
+- **Description:** Creates a new todo.
+- **Request Body:**
+  ```json
+  {
+    "title": "New Task",
+    "description": "Description of the task",
+    "priority": "Medium",
+    "status": "In Progress"
+  }
+  ```
+- **Responses:**
+  - ✅ `201 Created`
+    ```json
+    {
+      "message": "Todo created successfully."
+    }
+    ```
+  - ❌ `400 Bad Request`
+    ```json
+    {
+      "error": "Title is required."
+    }
+    ```
+
+### 📌 Update a Todo
+```yaml
+PUT /todos
+```
+- **Description:** Updates an existing todo.
+- **Request Body:**
+  ```json
+  {
+    "id": 1,
+    "title": "Updated Task",
+    "status": "Completed"
+  }
+  ```
+- **Responses:**
+  - ✅ `200 OK`
+    ```json
+    {
+      "message": "Todo updated successfully."
+    }
+    ```
+  - ❌ `404 Not Found`
+    ```json
+    {
+      "error": "Todo not found."
+    }
+    ```
+
+---
+
+## 🚀 Authentication Middleware
+All private routes require authentication. If a request is made without a valid JWT token, the response will be:
+
+```yaml
+401 Unauthorized
+```
+```json
+{
+  "error": "Unauthorized access."
+}
+```
+
+---
+
+By following this API reference, you can efficiently interact with authentication, task management, and category management functionalities. 🚀  
+Feel free to contribute and extend the functionality!
+
+
+## 🏆 Best Practices Implemented
+
+This project follows industry best practices to ensure maintainability, scalability, and security. Below are the key best practices applied:
+
+### ✅ **Code Organization & Architecture**
+- **MVC Architecture**: The project follows the **Model-View-Controller (MVC)** pattern, ensuring separation of concerns.  
+- **Repository & Service Layers**: Implements a clean architecture with repository and service layers to keep business logic separate from database interactions.  
+- **PSR-4 Autoloading**: Uses **PSR-4** standards for class autoloading, improving modularity and maintainability.  
+
+### 🔒 **Security Practices**
+- **JWT Authentication**: Secure user authentication using **JSON Web Tokens (JWT)**.  
+- **Environment Variables**: Configuration-sensitive data (database credentials, API keys) are stored in a **`.env`** file using `vlucas/phpdotenv`.  
+- **Exception Handling**: Custom exception classes are implemented to handle errors gracefully.  
+
+### 🚀 **Performance & Optimization**
+- **Dependency Injection**: Uses **PHP-DI** for efficient dependency management, reducing tight coupling between components.  
+- **Lightweight Routing**: Utilizes **Bramus/Router**, a fast and minimalistic routing library.  
+- **Efficient Database Queries**: Follows best practices for structuring database queries and relationships to optimize performance.  
+
+### 🛠️ **Maintainability & Scalability**
+- **Modular Design**: Code is structured in a way that allows easy feature extensions and modifications.  
+- **Interfaces for Repositories**: Ensures flexibility and testability by defining interfaces for repositories.  
+- **Factory Pattern**: Uses the **Factory Pattern** to create objects dynamically, improving maintainability.  
+
+By following these best practices, this project is **scalable, maintainable, and secure**. 🚀  
+Feel free to contribute and follow these guidelines when making updates!  
+
 
