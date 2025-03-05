@@ -3,6 +3,7 @@
 header("Access-Control-Allow-Origin: http://localhost:4200");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token, Authorization");
+header('Access-Control-Expose-Headers: Authorization');
 
 // Manejo de solicitudes OPTIONS (preflight)
 if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
