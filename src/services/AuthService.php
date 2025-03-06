@@ -74,6 +74,7 @@ class AuthService {
                 "user" => [
                     "id" => $user['id'],
                     "name" => $user['name'],
+                    "lastName" => $user['last_name'],
                     "email" => $user['email']
                 ],
             ];

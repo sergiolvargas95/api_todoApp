@@ -34,7 +34,7 @@ class AuthRepository implements IAuthRepository {
     }
 
     public function findUserByEmail($email) {
-        $stmt = $this->db->prepare("SELECT id, name, password_hash, email FROM users WHERE email = :email");
+        $stmt = $this->db->prepare("SELECT id, name, last_name, password_hash, email FROM users WHERE email = :email");
 
         $stmt->execute([
             "email" => $email
