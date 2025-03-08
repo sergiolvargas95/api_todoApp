@@ -34,7 +34,7 @@ class AuthService {
      * @return void
      */
     private function validateUserData(array $data) {
-        if ($data['password'] !== $data['confirm_password']) {
+        if ($data['password'] !== $data['confirmPassword']) {
             throw new ValidationException("Passwords must be identical");
         }
 
@@ -74,6 +74,7 @@ class AuthService {
                 "user" => [
                     "id" => $user['id'],
                     "name" => $user['name'],
+                    "lastName" => $user['last_name'],
                     "email" => $user['email']
                 ],
             ];

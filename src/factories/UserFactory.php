@@ -13,8 +13,8 @@ class UserFactory {
             $data['email'],
             $data['password'],
             $data['profilePicture'],
-            $data['created_at'],
-            $data['updated_at']
+            $data['created_at'] ?? date('Ymd'),
+            $data['updated_at'] ?? date('Ymd')
         );
     }
 }

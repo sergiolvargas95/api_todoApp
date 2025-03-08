@@ -13,7 +13,7 @@ class AuthMiddleware {
         '/register'
     ];
 
-    public static function handle($authRepository) {
+    public static function handle($authService) {
         $requestUri = $_SERVER['REQUEST_URI'];
 
         if (in_array($requestUri, self::$publicRoutes)) {
@@ -32,7 +32,7 @@ class AuthMiddleware {
 
         $token = $matches[1];
 
-        if ($authRepository->isTokenRevoked($token)) {
+        if ($authService->isTokenRevoked($token)) {
             http_response_code(401);
             echo json_encode(["error" => "Token revoked"]);
         }
