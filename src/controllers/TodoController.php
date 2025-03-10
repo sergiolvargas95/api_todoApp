@@ -12,8 +12,8 @@ class TodoController {
         $this->todoService = $todoService;
     }
 
-    public function getAll(int $user_id) {
-        return json_encode($this->todoService->getAllTodos($user_id));
+    public function getAll(int $user_id, ?array $status = null) {
+        return json_encode($this->todoService->getAllTodos($user_id, $status));
     }
 
     public function getById(int $id, int $user_id) {

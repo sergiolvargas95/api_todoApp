@@ -60,7 +60,12 @@ $router->post('/logout', function() use ($authController) {
  */
 $router->get('/todos', function() use ($todoController){
     $user_id = $_SERVER['AUTH_USER_ID'];
-    echo $todoController->getAll($user_id);
+
+    $statuses = isset($_GET['status']) && $_GET['status'] !== ''
+        ? array_filter(explode(',', $_GET['status']))
+        : [];
+
+    echo $todoController->getAll($user_id, $statuses);
 });
 
 $router->get('/todos/{id}', function($id) use ($todoController){

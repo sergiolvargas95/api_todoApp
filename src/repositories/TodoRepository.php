@@ -13,13 +13,25 @@ class TodoRepository implements ITodoRepository {
         $this->db = $db;
     }
 
-    public function getAll(int $user_id): array {
-        $stmt = $this->db->prepare("SELECT id, title, description, priority, status, completed, user_id, category_id
-                                    FROM todos WHERE user_id = :user_id");
+    public function getAll(int $user_id, ?array $statuses = null): array {
+        $query = "SELECT id, title, description, priority, status, completed, user_id, category_id
+                FROM todos WHERE user_id = :user_id";
 
-        $stmt->execute([
-            ":user_id" => $user_id
-        ]);
+        $params = [":user_id" => $user_id];
+
+        if (!empty($statuses)) {
+            $statusPlaceholders = [];
+            foreach ($statuses as $index => $status) {
+                $paramName = ":status$index";
+                $statusPlaceholders[] = $paramName;
+                $params[$paramName] = $status;
+            }
+            $query .= " AND status IN (" . implode(',', $statusPlaceholders) . ")";
+        }
+
+        $stmt = $this->db->prepare($query);
+
+        $stmt->execute($params);
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }

@@ -4,7 +4,7 @@ CREATE TABLE todos (
     title VARCHAR(255) NOT NULL,
     description TEXT NULL,
     priority ENUM('low', 'medium', 'high') DEFAULT 'medium',
-    status ENUM('pending', 'in_progress', 'completed', 'archived') DEFAULT 'pending',
+    status ENUM('open', 'pending', 'in_progress', 'completed', 'archived') DEFAULT 'open',
     completed BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

@@ -11,8 +11,8 @@ class TodoService {
         $this->todoRepository = $todoRepository;
     }
 
-    public function getAllTodos(int $user_id) {
-        return $this->todoRepository->getAll($user_id);
+    public function getAllTodos(int $user_id, ?array $status = null) {
+        return $this->todoRepository->getAll($user_id, $status);
     }
 
     public function getTodoById(int $id, int $user_id) {
