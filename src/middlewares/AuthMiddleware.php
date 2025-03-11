@@ -40,7 +40,7 @@ class AuthMiddleware {
         try {
             $decoded = JWT::decode($token, new Key($_ENV['JWT_SECRET_KEY'], 'HS256'));
 
-            $_SERVER['AUTH_USER_ID'] = $decoded->user_id;
+            $_SERVER['AUTH_USER_ID'] = intval($decoded->user_id);
 
         } catch (\Exception $e) {
             throw new UnauthorizedException("Invalid or expired token.");

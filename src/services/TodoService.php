@@ -19,21 +19,21 @@ class TodoService {
         return $this->todoRepository->getById($id, $user_id);
     }
 
-    public function createTodo(array $data) {
+    public function createTodo(array $data, int $user_id) {
 
-        $todo = TodoFactory::createFromArray($data);
+        $todo = TodoFactory::createFromArray($data, $user_id);
 
         return $this->todoRepository->create($todo);
     }
 
-    public function updateTodo(array $data) {
+    public function updateTodo(array $data, int $user_id) {
         $todo = $this->getTodoById($data['id'], $data['user_id']);
 
         if(!$todo) {
             return false;
         }
 
-        $todo = TodoFactory::createFromArray($todo);
+        $todo = TodoFactory::createFromArray($todo, $user_id);
 
         if(isset($data['title'])) {
             $todo->setTitle($data['title']);

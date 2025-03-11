@@ -20,15 +20,15 @@ class TodoController {
         return json_encode($this->todoService->getTodoById($id, $user_id));
     }
 
-    public function create() {
+    public function create(int $user_id) {
         $data = json_decode(file_get_contents("php://input"), true);
 
-        if (!$data || !isset($data['title'], $data['priority'], $data['status'], $data['user_id'], $data['completed'])) {
+        if (!$data || !isset($data['title'], $data['priority'], $user_id, $data['completed'])) {
             http_response_code(400);
             return json_encode(["error" => "Invalid Data"]);
         }
 
-        $success = $this->todoService->createTodo($data);
+        $success = $this->todoService->createTodo($data, $user_id);
 
         if ($success) {
             http_response_code(201);

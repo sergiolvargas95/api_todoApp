@@ -74,7 +74,8 @@ $router->get('/todos/{id}', function($id) use ($todoController){
 });
 
 $router->post('/todos', function() use ($todoController) {
-    echo $todoController->create();
+    $user_id = $_SERVER['AUTH_USER_ID'];
+    echo $todoController->create($user_id);
 });
 
 $router->put('/todos', function() use ($todoController){
